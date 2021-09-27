@@ -38,7 +38,7 @@ def scraper(url):
         i += 1
     
     # Get all courses prices
-    # !! Now it retrieves all prices but keeps putting someone out of range causing a crash
+    # !! Now it successfully retrieves all prices but keeps putting someone out of range causing a crash
     k = 0
     for course_price in soup.find_all(string=re.compile('euro')):
         print("{} - {} - {}".format(k, len(courses), course_price))
@@ -47,6 +47,3 @@ def scraper(url):
 
     # Return courses requested
     return courses
-
-if __name__ == '__main__':
-    retrieve_menu('pizza')
