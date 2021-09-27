@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 _ROOT_WEB_PAGE = 'https://nonnatittina.eu/'
 _PIZZA = _ROOT_WEB_PAGE + 'pizze-cdn/'
@@ -18,7 +19,7 @@ def retrieve_menu(course):
 
 def scraper(url):
     """
-    This function can scrapes pizzas and salads data from the official website.
+    This function scrapes pizzas and salads data from the official website.
     """
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'html.parser')
@@ -37,11 +38,15 @@ def scraper(url):
         i += 1
     
     # Get all courses prices
-    # !! Somehow it doesn't get all prices and put someone out of range causing a crash
-    """ k = 0
-    for course_price in soup.find_all('p', 'p4'):
+    # !! Now it retrieves all prices but keeps putting someone out of range causing a crash
+    k = 0
+    for course_price in soup.find_all(string=re.compile('euro')):
+        print("{} - {} - {}".format(k, len(courses), course_price))
         courses[k]['price'] = course_price.text
-        k += 1 """
-    
+        k += 1 
+
     # Return courses requested
     return courses
+
+if __name__ == '__main__':
+    retrieve_menu('pizza')
