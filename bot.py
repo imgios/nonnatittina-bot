@@ -7,7 +7,7 @@ TO-DO: Bot description.
 
 import logging
 import os
-from telegram import Update, ForceReply
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Enable logging
@@ -29,10 +29,18 @@ def start(update: Update, context: CallbackContext) -> None:
         + 'Per iniziare digita /menu oppure utilizza i bottoni presenti in basso\!',
     )
 
-
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+def menu_command(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /menu is issued."""
+    keyboard = [
+        [
+            InlineKeyboardButton("🍕 Pizze", callback_data='pizza'),
+            InlineKeyboardButton("🥗 Insalate", callback_data='salad'),
+            InlineKeyboardButton("🍱 Menù del giorno", callback_data='daily')
+        ]
+    ]
+    update.message.reply_text('I menù vengono presi direttamente dal sito web ufficiale del ristorante.'
+        + '\nQuale menù intendi consultare?', reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
 
 def echo(update: Update, context: CallbackContext) -> None:
@@ -50,7 +58,7 @@ def main() -> None:
 
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
+    dispatcher.add_handler(CommandHandler("menu", menu_command))
 
     # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
