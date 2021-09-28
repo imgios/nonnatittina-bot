@@ -24,8 +24,9 @@ def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
     update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
+        fr'Ciao {user.mention_markdown_v2()}, hai fame\?'
+        + '\nCon questo bot puoi visionare il menù del Ristorante Nonna Tittina, presente al centro direzionale\! '
+        + 'Per iniziare digita /menu oppure utilizza i bottoni presenti in basso\!',
     )
 
 
