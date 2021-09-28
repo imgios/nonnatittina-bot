@@ -35,8 +35,8 @@ def menu_command(update: Update, context: CallbackContext) -> None:
         [
             InlineKeyboardButton("🍕 Pizze", callback_data='pizza'),
             InlineKeyboardButton("🥗 Insalate", callback_data='salad'),
-            InlineKeyboardButton("🍱 Menù del giorno", callback_data='daily')
-        ]
+        ],
+        InlineKeyboardButton("🍱 Menù del giorno", callback_data='daily')
     ]
     update.message.reply_text('I menù vengono presi direttamente dal sito web ufficiale del ristorante.'
         + '\nQuale menù intendi consultare?', reply_markup=InlineKeyboardMarkup(keyboard)
