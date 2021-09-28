@@ -9,11 +9,9 @@ _SALAD = _ROOT_WEB_PAGE + 'insalate-cdn/'
 
 def retrieve_menu(course):
     if course == 'pizza':
-        # scrape pizza menu
         return scraper(_PIZZA)
     elif course == 'daily':
-        # scrape daily menu
-        return 0
+        return daily_scraper()
     elif course == 'salad':
         return scraper(_SALAD)
 
@@ -41,9 +39,33 @@ def scraper(url):
     # !! Now it successfully retrieves all prices but keeps putting someone out of range causing a crash
     k = 0
     for course_price in soup.find_all(string=re.compile('euro')):
-        print("{} - {} - {}".format(k, len(courses), course_price))
         courses[k]['price'] = course_price.text
         k += 1 
 
     # Return courses requested
     return courses
+
+def daily_scraper():
+    req = requests.get(_DAILY)
+    soup = BeautifulSoup(req.content, 'html.parser')
+
+    # List with all courses requested
+    courses = []
+
+    # Get courses tables
+    tables = soup.find_all('table')
+
+    # Get first course names and prices
+    for row in tables[0].tbody.find_all('tr'):
+        table_cell = row.find_all('td')
+        courses.append({'name': table_cell[0].text, 'price': table_cell[1].text})
+    
+    # Get main course names and prices
+    for row in tables[1].tbody.find_all('tr'):
+        table_cell = row.find_all('td')
+        courses.append({'name': table_cell[0].text, 'price': table_cell[1].text})
+
+    return courses
+
+if __name__ == '__main__':
+    print(daily_scraper())
