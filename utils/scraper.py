@@ -48,7 +48,7 @@ def scraper(url):
         i = 0
         for course_desc in soup.find_all('p', 'p2'):
             if 'congelato' not in course_desc.text:
-                courses[i]['desc'] = course_desc.text
+                courses[i]['desc'] = course_desc.text.replace(u'\xa0', u' ')
                 i += 1
         
         # Get all courses prices
