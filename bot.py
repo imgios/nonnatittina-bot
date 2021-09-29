@@ -8,7 +8,7 @@ TO-DO: Bot description.
 import logging
 import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
 
 # Enable logging
 logging.basicConfig(
@@ -61,7 +61,8 @@ def echo(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater(os.environ['TELEGRAM_BOT_TOKEN'])
+    #updater = Updater(os.environ['TELEGRAM_BOT_TOKEN'])
+    updater = Updater('2031198008:AAFVQQ7ChoLhrslfdMU5Yrrpbw7QgUmgZno')
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -69,6 +70,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("menu", menu_command))
+    dispatcher.add_handler(CallbackQueryHandler(keyboard_callback))
 
     # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
