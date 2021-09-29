@@ -42,6 +42,16 @@ def menu_command(update: Update, context: CallbackContext) -> None:
         + '\nQuale menù intendi consultare?', reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
+def keyboard_callback(update: Update, context: CallbackContext) -> None:
+    """Parses CallbackQuery and updates the message text when InlineKeyboard's buttons are pressed."""
+    query = update.callback_query
+
+    if 'pizza' in query.data:
+        query.edit_message_text(text="Menù Pizze!")
+    elif 'salad' in query.data:
+        query.edit_message_text(text="Menù Insalate!")
+    elif 'daily' in query.data:
+        query.edit_message_text(text="Menù del giorno!")
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
