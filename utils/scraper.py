@@ -47,16 +47,13 @@ def scraper(url):
         # Get all courses descriptions
         i = 0
         for course_desc in soup.find_all('p', 'p2'):
-            if '* prodotto congelato' not in course_desc.text:
+            if 'congelato' not in course_desc.text:
                 courses[i]['desc'] = course_desc.text
                 i += 1
         
         # Get all courses prices
-        # !! Now it successfully retrieves all prices but keeps putting someone out of range causing a crash
-        k = 0
-        for course_price in soup.find_all(string=re.compile('euro')):
-            courses[k]['price'] = course_price.text
-            k += 1 
+        for course_price, course in zip(soup.find_all(string=re.compile('euro')), courses):
+            course['price'] = course_price
 
     # Return courses requested
     return courses
