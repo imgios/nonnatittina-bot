@@ -47,12 +47,16 @@ def keyboard_callback(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
 
+    keyboard = [
+        [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
+    ]
+
     if 'pizza' in query.data:
-        query.edit_message_text(text="Menù Pizze!")
+        query.edit_message_text(text="Menù Pizze!", reply_markup=InlineKeyboardMarkup(keyboard))
     elif 'salad' in query.data:
-        query.edit_message_text(text="Menù Insalate!")
+        query.edit_message_text(text="Menù Insalate!", reply_markup=InlineKeyboardMarkup(keyboard))
     elif 'daily' in query.data:
-        query.edit_message_text(text="Menù del giorno!")
+        query.edit_message_text(text="Menù del giorno!", reply_markup=InlineKeyboardMarkup(keyboard))
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
