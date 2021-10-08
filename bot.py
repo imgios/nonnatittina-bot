@@ -70,7 +70,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("menu", menu_command))
-    dispatcher.add_handler(CallbackQueryHandler(keyboard_callback))
+    dispatcher.add_handler(CallbackQueryHandler(keyboard_callback, pattern='^pizza|salad|daily$'))
 
     # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
