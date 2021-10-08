@@ -45,6 +45,7 @@ def menu_command(update: Update, context: CallbackContext) -> None:
 def keyboard_callback(update: Update, context: CallbackContext) -> None:
     """Parses CallbackQuery and updates the message text when InlineKeyboard's buttons are pressed."""
     query = update.callback_query
+    query.answer()
 
     if 'pizza' in query.data:
         query.edit_message_text(text="Menù Pizze!")
