@@ -9,6 +9,7 @@ import logging
 import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
+from utils.scraper import retrieve_menu
 
 # Enable logging
 logging.basicConfig(
@@ -47,11 +48,27 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
     query = update.callback_query
     query.answer()
 
-    keyboard = [
-        [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
-    ]
+    # Message text & inline keyboard
+    message = ''
+    keyboard = None
 
-    query.edit_message_text(text="Ecco a te il menù 😋\n\n", reply_markup=InlineKeyboardMarkup(keyboard))
+    # Retrieve menu
+    menu = retrieve_menu(query.data)
+
+    if len(menu) != 0:
+        # Menu not empty    
+        keyboard = [
+            [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
+        ]
+        message = "Ecco a te il menù 😋\n\n"
+    else:
+        # Menu empty    
+        keyboard = [
+            [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
+        ]
+        message = "Purtroppo non sono riuscito ad ottenere il menu!\n\nRiprova più tardi, oppure consultalo online su https://nonnatittina.eu/menu-cdn/"
+
+    query.edit_message_text(text=message, reply_markup=InlineKeyboardMarkup(keyboard))
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
