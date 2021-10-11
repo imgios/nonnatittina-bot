@@ -42,7 +42,7 @@ def menu_command(update: Update, context: CallbackContext) -> None:
         + '\nQuale menù intendi consultare?', reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-def keyboard_callback(update: Update, context: CallbackContext) -> None:
+def selection_keyboard_callback(update: Update, context: CallbackContext) -> None:
     """Parses CallbackQuery and updates the message text when InlineKeyboard's buttons are pressed."""
     query = update.callback_query
     query.answer()
@@ -51,12 +51,7 @@ def keyboard_callback(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
     ]
 
-    if 'pizza' in query.data:
-        query.edit_message_text(text="Menù Pizze!", reply_markup=InlineKeyboardMarkup(keyboard))
-    elif 'salad' in query.data:
-        query.edit_message_text(text="Menù Insalate!", reply_markup=InlineKeyboardMarkup(keyboard))
-    elif 'daily' in query.data:
-        query.edit_message_text(text="Menù del giorno!", reply_markup=InlineKeyboardMarkup(keyboard))
+    query.edit_message_text(text="Ecco a te il menù 😋\n\n", reply_markup=InlineKeyboardMarkup(keyboard))
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
@@ -75,7 +70,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("menu", menu_command))
-    dispatcher.add_handler(CallbackQueryHandler(keyboard_callback, pattern='^pizza|salad|daily$'))
+    dispatcher.add_handler(CallbackQueryHandler(selection_keyboard_callback, pattern='^pizza|salad|daily$'))
 
     # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
