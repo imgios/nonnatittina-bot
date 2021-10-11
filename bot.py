@@ -61,6 +61,10 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
             [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
         ]
         message = "Ecco a te il menù 😋\n\n"
+        for course in menu[:5]:
+            message += course['name'] + '\t\t' + course['price'] + '\n'
+            if 'daily' not in query.data:
+                message += course['desc'] + '\n\n'
     else:
         # Menu empty    
         keyboard = [
