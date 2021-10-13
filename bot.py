@@ -58,7 +58,7 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
     if len(menu) != 0:
         # Menu not empty    
         keyboard = [
-            [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-1')],
+            [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-2')],
         ]
         message = "Ecco a te il menù 😋\n\n"
         for course in menu[:5]:
@@ -71,6 +71,47 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
             [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
         ]
         message = "Purtroppo non sono riuscito ad ottenere il menu!\n\nRiprova più tardi, oppure consultalo online su https://nonnatittina.eu/menu-cdn/"
+
+    query.edit_message_text(text=message, reply_markup=InlineKeyboardMarkup(keyboard))
+
+def menu_keyboard_callback(update: Update, context: CallbackContext) -> None:
+    """Parses CallbackQuery in order to provide a dynamic menu with pages."""
+    query = update.callback_query
+    query.answer()
+    
+    # query should be page-x-y where x is the menu requested and y is the page number
+    query_splitted = query.data.split('-')
+    page_number = int(query_splitted[2])
+
+    # InlineKeyboard for pagination
+    keyboard = [
+        [
+            InlineKeyboardButton("⬅ Pagina precedente", callback_data=f'page-{query_splitted[1]}-{page_number - 1}'),
+            InlineKeyboardButton("Pagina successiva ➡", callback_data=f'page-{query_splitted[1]}-{page_number + 1}')
+        ],
+    ]
+
+    # Print 5 courses at a time
+    last_course_index = page_number * 5
+    first_course_index = last_course_index - 5
+
+    # Retrieve again the menu
+    # This will be optimized adding persistent storage
+    menu = retrieve_menu(query_splitted[1])
+
+    # Check if this is the last page comparing last item index with list length
+    if len(menu) - 1 < last_course_index:
+        last_course_index = len(menu) - 1
+        keyboard = [
+            [InlineKeyboardButton("⬅ Pagina precedente", callback_data=f'page-{query_splitted[1]}-{page_number - 1}')],
+        ]
+
+    # Let's build the message to return to the user
+    message = ''
+    for course in menu[first_course_index:last_course_index]:
+        message += course['name'] + '\t\t' + course['price'] + '\n'
+        if 'daily' not in query_splitted[1]:
+            message += course['desc'] + '\n\n'
 
     query.edit_message_text(text=message, reply_markup=InlineKeyboardMarkup(keyboard))
 
@@ -92,6 +133,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("menu", menu_command))
     dispatcher.add_handler(CallbackQueryHandler(selection_keyboard_callback, pattern='^pizza|salad|daily$'))
+    dispatcher.add_handler(CallbackQueryHandler(menu_keyboard_callback, pattern='^page-[a-zA-Z]+-[0-9]+$'))
 
     # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
