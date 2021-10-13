@@ -33,12 +33,12 @@ def scraper(url):
         # Get first course names and prices
         for row in tables[0].tbody.find_all('tr'):
             table_cell = row.find_all('td')    
-            courses.append({'name': table_cell[0].text.replace(u'\n', u''), 'price': table_cell[1].text})
+            courses.append({'name': table_cell[0].text.replace(u'\n', u''), 'price': ''.join(table_cell[1].text.split())})
         
         # Get main course names and prices
         for row in tables[1].tbody.find_all('tr'):
             table_cell = row.find_all('td')
-            courses.append({'name': table_cell[0].text.replace(u'\n', u''), 'price': table_cell[1].text})
+            courses.append({'name': table_cell[0].text.replace(u'\n', u''), 'price': ''.join(table_cell[1].text.split())})
     else:        
         # Get all courses names
         for course_name in soup.find_all('h3', 'p1'):
