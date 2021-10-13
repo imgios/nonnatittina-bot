@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+from cachetools import cached, LRUCache
 
 _ROOT_WEB_PAGE = 'https://nonnatittina.eu/'
 _PIZZA = _ROOT_WEB_PAGE + 'pizze-cdn/'
@@ -15,6 +16,7 @@ def retrieve_menu(course):
     elif course == 'salad':
         return scraper(_SALAD)
 
+@cached(cache=LRUCache(3))
 def scraper(url):
     """
     This function scrapes courses data from the official website.
