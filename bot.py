@@ -99,6 +99,12 @@ def menu_keyboard_callback(update: Update, context: CallbackContext) -> None:
     # This will be optimized adding persistent storage
     menu = retrieve_menu(query_splitted[1])
 
+    # Check if this is the first page
+    if page_number == 1:
+        keyboard = [
+            [InlineKeyboardButton("Pagina successiva ➡", callback_data=f'page-{query_splitted[1]}-{page_number + 1}')],
+        ]
+    
     # Check if this is the last page comparing last item index with list length
     if len(menu) - 1 < last_course_index:
         last_course_index = len(menu) - 1
