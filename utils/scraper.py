@@ -38,7 +38,7 @@ def scraper(url):
         # Get main course names and prices
         for row in tables[1].tbody.find_all('tr'):
             table_cell = row.find_all('td')
-            courses.append({'name': table_cell[0].text, 'price': table_cell[1].text})
+            courses.append({'name': table_cell[0].text.replace(u'\n', u''), 'price': table_cell[1].text})
     else:        
         # Get all courses names
         for course_name in soup.find_all('h3', 'p1'):
