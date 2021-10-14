@@ -46,7 +46,7 @@ Now you are ready to interact with it!
 
 ## Contributors
 
-<a href="https://github.com/imgios/imgios/graphs/contributors">
+<a href="https://github.com/imgios/nonnatittina-bot/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=imgios/nonnatittina-bot" />
 </a>
 
