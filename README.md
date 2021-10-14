@@ -1,6 +1,6 @@
-# NonnaTittina Telegram Bot
+# 👵🏼 Nonna Tittina Telegram Bot
 
-NonnaTittina is a Telegram Bot that allows you to fetch the restaurant menu from the official website and reading it within the app.
+NonnaTittina ([👵🏼 @NonnaTittinaBot](https://t.me/nonnatittinabot)) is a Telegram Bot that allows you to fetch the restaurant menu from the official website and reading it within the app.
 
 ## Getting Started
 
