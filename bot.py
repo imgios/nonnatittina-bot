@@ -55,7 +55,7 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
     # Retrieve menu
     menu = retrieve_menu(query.data)
 
-    if (menu is none) or (len(menu) == 0):
+    if (menu is None) or (len(menu) == 0):
         # Menu empty    
         keyboard = [
             [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
@@ -96,8 +96,14 @@ def menu_keyboard_callback(update: Update, context: CallbackContext) -> None:
     first_course_index = last_course_index - 5
 
     # Retrieve again the menu
-    # This will be optimized adding persistent storage
     menu = retrieve_menu(query_splitted[1])
+
+    if (menu is None) or (len(menu) == 0):
+        # Menu empty    
+        keyboard = [
+            [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
+        ]
+        message = "Purtroppo non sono riuscito ad ottenere il resto del menu!\n\nRiprova più tardi, oppure consultalo online su https://nonnatittina.eu/menu-cdn/"
 
     # Check if this is the first page
     if page_number == 1:
