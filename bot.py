@@ -55,7 +55,13 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
     # Retrieve menu
     menu = retrieve_menu(query.data)
 
-    if len(menu) != 0:
+    if (menu is none) or (len(menu) == 0):
+        # Menu empty    
+        keyboard = [
+            [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
+        ]
+        message = "Purtroppo non sono riuscito ad ottenere il menu!\n\nRiprova più tardi, oppure consultalo online su https://nonnatittina.eu/menu-cdn/"
+    else:
         # Menu not empty    
         keyboard = [
             [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-2')],
@@ -64,13 +70,7 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
         for course in menu[:5]:
             message += course['name'] + '\t\t' + course['price'] + '\n'
             if 'daily' not in query.data:
-                message += course['desc'] + '\n\n'
-    else:
-        # Menu empty    
-        keyboard = [
-            [InlineKeyboardButton("🔙 Torna indietro", callback_data='menu')],
-        ]
-        message = "Purtroppo non sono riuscito ad ottenere il menu!\n\nRiprova più tardi, oppure consultalo online su https://nonnatittina.eu/menu-cdn/"
+                message += course['desc'] + '\n\n' 
 
     query.edit_message_text(text=message, reply_markup=InlineKeyboardMarkup(keyboard))
 
