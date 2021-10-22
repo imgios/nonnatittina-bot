@@ -23,6 +23,11 @@ def scraper(url):
     """
     
     req = requests.get(url)
+
+    # Check if the website is down
+    if req.status_code != 200:
+        return None
+
     soup = BeautifulSoup(req.content, 'html.parser')
 
     # List with all courses requested
