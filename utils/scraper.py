@@ -7,6 +7,7 @@ _ROOT_WEB_PAGE = 'https://nonnatittina.eu/'
 _PIZZA = _ROOT_WEB_PAGE + 'pizze-cdn/'
 _DAILY = _ROOT_WEB_PAGE + 'menu-del-giorno/'
 _SALAD = _ROOT_WEB_PAGE + 'insalate-cdn/'
+_API = _ROOT_WEB_PAGE + 'wp-json/wp/v2/pages'
 
 def retrieve_menu(course):
     if course == 'pizza':
@@ -34,6 +35,13 @@ def scraper(url):
     courses = []
 
     if url == _DAILY:
+        # Get last update time to check the menu date
+        req_api_json = requests.get(_API).json()
+        api_daily_items = list(filter(lambda pages: pages['slug'] == 'menu-di-oggi', req_api_json))
+        if len(api_daily_items) > 0:
+            date = api_daily_items[0]['modified'].split('T')[0]
+            courses.append({'name': 'Data del menu:', 'price': date})
+
         # Get courses tables
         tables = soup.find_all('table')
 
