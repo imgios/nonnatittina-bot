@@ -35,13 +35,6 @@ def scraper(url):
     courses = []
 
     if url == _DAILY:
-        # Get last update time to check the menu date
-        req_api_json = requests.get(_API).json()
-        api_daily_items = list(filter(lambda pages: pages['slug'] == 'menu-di-oggi', req_api_json))
-        if len(api_daily_items) > 0:
-            date = api_daily_items[0]['modified'].split('T')[0]
-            courses.append({'name': 'Data del menu:', 'price': date})
-
         # Get courses tables
         tables = soup.find_all('table')
 
@@ -69,3 +62,14 @@ def scraper(url):
 
     # Return courses requested
     return courses
+
+def daily_menu_last_update():
+    # Get last update time to check the menu date
+    req_api = requests.get(_API)
+    req_api_json = req_api.json()
+    api_daily_items = list(filter(lambda pages: pages['slug'] == 'menu-di-oggi', req_api_json))
+    if len(api_daily_items) > 0:
+        date = api_daily_items[0]['modified'].split('T')[0]
+        return date
+    else:
+        return None
