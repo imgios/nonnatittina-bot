@@ -9,7 +9,7 @@ import logging
 import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
-from utils.scraper import retrieve_menu
+from utils.scraper import retrieve_menu, daily_menu_last_update
 
 # Enable logging
 logging.basicConfig(
@@ -67,6 +67,13 @@ def selection_keyboard_callback(update: Update, context: CallbackContext) -> Non
             [InlineKeyboardButton("Pagina successiva ➡", callback_data='page-' + query.data + '-2')],
         ]
         message = "Ecco a te il menù 😋\n\n"
+
+        # Print last update date for daily menu
+        if query.data == "daily":
+            last_update = daily_menu_last_update()
+            if last_update != None:
+                message += "Ultimo aggiornamento: " + last_update + "\n\n"
+
         for course in menu[:5]:
             message += course['name'] + '\t\t' + course['price'] + '\n'
             if 'daily' not in query.data:
