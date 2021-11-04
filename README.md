@@ -37,6 +37,10 @@ $ pip install -r requirements.txt
 ```
 
 4. Replace `os.environ['TELEGRAM_BOT_TOKEN']` with your Telegram Bot token or create an environment variable named `TELEGRAM_BOT_TOKEN` and use the bot token as value.
+5. Start the bot:
+```bash
+$ python bot.py
+```
 
 Now you are ready to interact with it!
 
