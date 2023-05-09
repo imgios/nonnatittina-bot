@@ -1,4 +1,6 @@
+
 FROM python:3.9-slim
+LABEL org.opencontainers.image.source="https://github.com/imgios/nonnatittina-bot"
 
 # Python env variables
 ENV PYTHONFAULTHANDLER=1
