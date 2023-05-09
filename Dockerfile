@@ -13,12 +13,13 @@ ENV PIP_DEFAULT_TIMEOUT=100
 ENV TELEGRAM_BOT_TOKEN ${TELEGRAM_BOT_TOKEN}
 
 RUN mkdir -p /telegram-bot
-COPY __init.py__ /telegram-bot/
+COPY __init__.py /telegram-bot/
 COPY bot.py /telegram-bot/
 COPY requirements.txt /telegram-bot/
-ADD utils /telegram-bot/
+COPY utils/ /telegram-bot/utils
 
+WORKDIR /telegram-bot/
 RUN pip3 install -r requirements.txt
-RUN chmod +x /codebase/bot.py
+RUN chmod +x bot.py
 
-CMD python3 /codebase/bot.py;
+CMD python3 bot.py;
