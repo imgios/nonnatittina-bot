@@ -4,7 +4,7 @@ NonnaTittina ([👵🏼 @NonnaTittinaBot](https://t.me/nonnatittinabot)) is a Te
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running.
 
 ### Prerequisites
 
@@ -12,8 +12,18 @@ These instructions will get you a copy of the project up and running on your loc
 - pip
 - Virtualenv
 - Telegram Bot (use [BotFather](https://t.me/botfather))
+- Docker (optional: mandatory if you want to run it inside a container)
 
-### Installing
+### Running it with Docker
+
+Running it in a Docker container is almost a one-step procedure:
+
+```bash
+$ docker pull ghcr.io/imgios/nonnatittina-bot:latest
+$ docker run -it imgios/nonnatittina-bot:latest -e TELEGRAM_BOT_TOKEN=<telegram-bot-token>
+```
+
+### Running it without Docker
 
 1. First of all, you need to clone the repository:
 
@@ -36,13 +46,11 @@ $ .\venv\Scripts\activate.bat # Windows
 $ pip install -r requirements.txt
 ```
 
-4. Replace `os.environ['TELEGRAM_BOT_TOKEN']` with your Telegram Bot token or create an environment variable named `TELEGRAM_BOT_TOKEN` and use the bot token as value.
+4. Create an environment variable named `TELEGRAM_BOT_TOKEN` and use the bot token as value.
 5. Start the bot:
 ```bash
 $ python bot.py
 ```
-
-Now you are ready to interact with it!
 
 ## Built With
 
