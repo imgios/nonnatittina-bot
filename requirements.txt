@@ -1,7 +1,7 @@
 APScheduler==3.6.3
 beautifulsoup4==4.10.0
 cachetools==4.2.2
-certifi==2023.7.22
+certifi==2024.7.4
 charset-normalizer==2.0.6
 idna==3.2
 python-telegram-bot==13.7
