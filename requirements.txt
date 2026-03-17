@@ -3,7 +3,7 @@ beautifulsoup4==4.10.0
 cachetools==4.2.2
 certifi==2023.7.22
 charset-normalizer==2.0.6
-idna==3.2
+idna==3.7
 python-telegram-bot==13.7
 pytz==2021.1
 requests==2.31.0
